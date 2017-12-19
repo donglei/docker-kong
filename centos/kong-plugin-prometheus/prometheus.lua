@@ -421,6 +421,10 @@ end
 --   value: (number) value to add. Optional, defaults to 1.
 function Prometheus:inc(name, label_names, label_values, value)
   local key = full_metric_name(name, label_names, label_values)
+  ngx.log(ngx.DEBUG, string.format("Prometheus: log inc name:%s  value: (%s)", name, value))
+  
+  value = tonumber(value)
+
   if value == nil then value = 1 end
   if value < 0 then
     self:log_error_kv(key, value, "Value should not be negative")
@@ -522,6 +526,9 @@ function Prometheus:collect()
           seen_metrics[short_name] = true
         end
         -- Replace "Inf" with "+Inf" in each metric's last bucket 'le' label.
+        if key:find('le="Inf"', 1, true) then
+          key = key:gsub('le="Inf"', 'le="+Inf"')
+        end
         ngx.say(self.prefix .. key:gsub('le="Inf"', 'le="+Inf"'), " ", value)
       else
         self:log_error("Error getting '", key, "': ", err)
