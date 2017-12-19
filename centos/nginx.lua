@@ -1,3 +1,4 @@
+return [[
 > if nginx_user then
 user ${{NGINX_USER}};
 > end
@@ -22,9 +23,11 @@ events {
 http {
     include 'nginx-kong.conf';
 
+    
+
     server {
 	  listen 9145;
-	  allow 10.0.0.0/8;
+	  allow 0.0.0.0/0;
 	  deny all;
 	  location /metrics {
 	    content_by_lua '
@@ -36,3 +39,4 @@ http {
   	   }
 	}
 }
+]]

@@ -23,7 +23,8 @@ services:
     environment:
       - KONG_DATABASE=postgres
       - KONG_PG_HOST=kong-database
-    command: kong migrations list --vv
+      - KONG_LOG_LEVEL=debug
+    command: kong migrations up --vv
 
   kong:
     image: kong-prometheus
@@ -36,6 +37,7 @@ services:
       - KONG_DATABASE=postgres
       - KONG_PG_HOST=kong-database
       - KONG_PG_DATABASE=kong
+      - KONG_LOG_LEVEL=debug
     expose:
       - 8000
       - 8001
