@@ -9,8 +9,8 @@ RUN yum install -y wget https://bintray.com/kong/kong-community-edition-rpm/down
 
 COPY ./nginx-lua-prometheus /usr/local/kong/nginx-lua-prometheus
 COPY docker-entrypoint-nginx.sh /docker-entrypoint.sh
-#COPY nginx.lua /usr/local/share/lua/5.1/kong/templates/
-#COPY nginx_kong.lua /usr/local/share/lua/5.1/kong/templates/
+COPY nginx.lua /usr/local/share/lua/5.1/kong/templates/
+COPY nginx_kong.lua /usr/local/share/lua/5.1/kong/templates/
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 EXPOSE 8000 8443 8001 8444 9145
