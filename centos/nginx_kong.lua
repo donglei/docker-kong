@@ -56,10 +56,7 @@ init_by_lua_block {
     metric_http_kong_duration_ms = prometheus:histogram("http_kong_duration_ms","kong duration ms",{"host","api"});
     
 }
-log_by_lua '
-  local host = ngx.var.host:gsub("^www.", "")
-  metric_http_requests_total:inc(1, {host, ngx.var.uri, ngx.var.status})
-';
+
 init_worker_by_lua_block {
     kong.init_worker()
 }
